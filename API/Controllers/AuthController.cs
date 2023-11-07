@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using BLL.Dto;
 using BLL.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -25,6 +26,7 @@ namespace API.Controllers
 		}
 
         [HttpGet("loggedUser")]
+        [Authorize(Roles = "Admin,Doctor")]
         public ActionResult<UserDto> GetLoggedInUser()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;

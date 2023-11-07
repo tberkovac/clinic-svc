@@ -1,6 +1,7 @@
 ﻿using System;
 using BLL.Dto;
 using BLL.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -17,6 +18,7 @@ namespace API.Controllers
 		}
 
 		[HttpPost("CreateRecord/{admissionId}")]
+		[Authorize(Roles = "Doctor")]
 		public async Task<RecordDto> CreateRecord(RecordDto recordDto, int admissionId)
 		{
 			var record = await _recordService.CreateRecord(recordDto, admissionId);
