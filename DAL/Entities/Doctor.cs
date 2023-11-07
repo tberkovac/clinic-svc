@@ -9,4 +9,5 @@ public class Doctor {
     public required string Code { get; set; }
     public int UserId { get; set; }
     public User? User { get; set; }
+    public bool IsDeleted { get; set; }
 }

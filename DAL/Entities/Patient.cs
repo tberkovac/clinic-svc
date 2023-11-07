@@ -8,4 +8,5 @@ public class Patient {
     public string? Address { get; set; }
     public string? PhoneNumber { get; set; }
     public required string UMCN { get; set; }
+    public bool IsDeleted { get; set; }
 }

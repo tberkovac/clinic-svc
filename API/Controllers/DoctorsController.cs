@@ -40,6 +40,14 @@ namespace API.Controllers
             var result = await _doctorService.GetPaginatedDoctors(searchParams);
             return result;
         }
+
+		[HttpDelete("Delete/{doctorId}")]
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult<DoctorDto>> DaleteDoctor(int doctorId)
+		{
+			var result = await _doctorService.DeleteDoctor(doctorId);
+			return result;
+		}
     }
 }
 

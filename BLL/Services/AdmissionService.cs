@@ -51,6 +51,29 @@ namespace BLL.Services
                 x => x.Doctor, x => x.Patient, x => x.Record);
             return _mapper.Map<List<AdmissionDto>>(admissions);
         }
+
+        public async Task<AdmissionDto> DeleteAdmission(int admissionId)
+        {
+            var admission = await _admissionRepository.GetById(admissionId);
+
+            if (admission == null)
+            {
+                throw new Exception($"Admission with provided id {admissionId} does not exist");
+            }
+
+            if (admission.RecordId != null)
+            {
+                admission.IsDeleted = true;
+            }
+            else
+            {
+                _admissionRepository.Remove(admission);
+            }
+
+            await _admissionRepository.SaveChangesAsync();
+
+            return _mapper.Map<AdmissionDto>(admission);
+        }
     }
 }
 

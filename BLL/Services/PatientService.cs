@@ -39,4 +39,20 @@ public class PatientService : IPatientService
 
         return _mapper.Map<ResponsePageDto<PatientDto>>(patients);
     }
+
+    public async Task<PatientDto> DeletePatient(int patientId)
+    {
+        var patient = await _patientRepository.GetById(patientId);
+
+        if (patient == null)
+        {
+            throw new Exception($"Patient with id : {patientId} does not exist");
+        }
+
+        patient.IsDeleted = true;
+
+        await _patientRepository.SaveChangesAsync();
+
+        return _mapper.Map<PatientDto>(patient);
+    }
 }

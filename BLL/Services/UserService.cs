@@ -28,7 +28,7 @@ namespace BLL.Services
             var user = await _userRepository.GetUserByUsername(loginDto.Username);
 
             if (user == null)
-            {
+            { 
                 throw new Exception("User with username " + loginDto.Username + " not found.");
             }
 

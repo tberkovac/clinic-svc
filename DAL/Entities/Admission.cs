@@ -12,6 +12,7 @@ namespace DAL.Entities
         public int? RecordId { get; set; }
         public Record? Record { get; set; }
         public bool IsEmergency { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
 

@@ -41,4 +41,11 @@ public class PatientsController : ControllerBase
         var result = await _patientService.GetPaginatedPatients(searchParams);
         return result;
     }
+
+    [HttpDelete("Delete/{patientId}")]
+    public async Task<ActionResult<PatientDto>> DeletePatient(int patientId)
+    {
+        var result = await _patientService.DeletePatient(patientId);
+        return result;
+    }
 }

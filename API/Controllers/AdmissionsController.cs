@@ -18,7 +18,7 @@ namespace API.Controllers
 		}
 
         [HttpGet("GetAll")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ResponsePageDto<AdmissionDto>>> GetAll([FromQuery] SearchParamsDto searchParams)
         {
             var admissions = await _admissionService.GetAllAdmissions(searchParams);
@@ -26,7 +26,7 @@ namespace API.Controllers
         }
 
         [HttpPost("Create")]
-		//[Authorize(Roles = "Admin")]
+		[Authorize(Roles = "Admin")]
 		public async Task<ActionResult<AdmissionDto>> Create(AdmissionDto admissionDto)
 		{
 			var admission = await _admissionService.Create(admissionDto);
@@ -40,6 +40,15 @@ namespace API.Controllers
 			var admissions = await _admissionService.GetDoctorsAdmissions(doctorId);
 			return admissions;
 		}
+
+		[HttpDelete("Delete/{admissionId}")]
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult<AdmissionDto>> DeleteAdmission(int admissionId)
+		{
+			var deletedAdmission = await _admissionService.DeleteAdmission(admissionId);
+			return deletedAdmission;
+		}
+
     }
 }
 
