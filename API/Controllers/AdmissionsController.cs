@@ -35,9 +35,9 @@ namespace API.Controllers
 
 		[HttpGet("GetDoctorsAdmissions/{doctorId}")]
 		[Authorize(Roles = "Admin,Doctor")]
-		public async Task<ActionResult<List<AdmissionDto>>> GetDoctorsAdmissions(int doctorId)
+		public async Task<ActionResult<ResponsePageDto<AdmissionDto>>> GetDoctorsAdmissions([FromQuery] SearchParamsDto searchParams, int doctorId)
 		{
-			var admissions = await _admissionService.GetDoctorsAdmissions(doctorId);
+			var admissions = await _admissionService.GetDoctorsAdmissions(searchParams, doctorId);
 			return admissions;
 		}
 

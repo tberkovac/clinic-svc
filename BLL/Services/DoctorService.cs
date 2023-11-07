@@ -40,6 +40,13 @@ namespace BLL.Services
             return _mapper.Map<List<DoctorDto>>(doctors);
         }
 
+        public async Task<List<DoctorDto>> GetAllSpecialists()
+        {
+            var specialists = await _doctorRepository
+                .GetFilteredWithIncludesAsync(d => d.Title.TitleName == "Specialist", d => d.Title);
+            return _mapper.Map<List<DoctorDto>>(specialists);
+        }
+
         public async Task<ResponsePageDto<DoctorDto>> GetPaginatedDoctors(SearchParamsDto searchParamsDto)
         {
             var searchParams = _mapper.Map<SearchParams>(searchParamsDto);

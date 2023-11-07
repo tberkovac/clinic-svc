@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class DoctorsController : ControllerBase
-    {
+	[ApiController]
+	[Route("[controller]")]
+	public class DoctorsController : ControllerBase
+	{
 		private readonly IDoctorService _doctorService;
 
 		public DoctorsController(IDoctorService doctorService)
@@ -30,6 +30,14 @@ namespace API.Controllers
 		public async Task<ActionResult<List<DoctorDto>>> GetAll()
 		{
 			var result = await _doctorService.GetDoctors();
+			return result;
+		}
+
+		[HttpGet("GetAll/Specialists")]
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult<List<DoctorDto>>> GetAllSpecialists()
+		{
+			var result = await _doctorService.GetAllSpecialists();
 			return result;
 		}
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using AutoMapper;
 using BLL.Dto;
 using BLL.IServices;
@@ -31,13 +32,18 @@ namespace BLL.Services
         public async Task<AdmissionDto> Create(AdmissionDto admissionDto)
         {
             var admission = _mapper.Map<Admission>(admissionDto);
+            var modifiedDate = admission.AdmissionDate.AddHours(1);
+            if (DateTime.Today.CompareTo(modifiedDate) < 0)
+            {
+                throw new Exception("Admission cannot be scheduled in past!");
+            }
             _admissionRepository.Add(admission);
             await _admissionRepository.SaveChangesAsync();
             admissionDto.AdmissionId = admission.AdmissionId;
             return admissionDto;
         }
 
-        public async Task<List<AdmissionDto>> GetDoctorsAdmissions(int userId)
+        public async Task<ResponsePageDto<AdmissionDto>> GetDoctorsAdmissions(SearchParamsDto searchParamsDto, int userId)
         {
             var doctor = await _doctorRepository.Find(x => x.UserId == userId);
 
@@ -46,10 +52,18 @@ namespace BLL.Services
                 throw new Exception("User with provided id is not doctor!");
             }
 
+            var filters = new Expression<Func<Admission, bool>>[]
+                {
+                    entity => entity.DoctorId == doctor.DoctorId,
+
+                };
+
+            var searchParams = _mapper.Map<SearchParams>(searchParamsDto);
+
             var admissions = await _admissionRepository
-                .GetFilteredWithIncludesAsync(x => x.DoctorId == doctor.DoctorId,
-                x => x.Doctor, x => x.Patient, x => x.Record);
-            return _mapper.Map<List<AdmissionDto>>(admissions);
+                .GetFilteredWithIncludesPaginatedAsync(filters, searchParams, x => x.Doctor, x => x.Patient, x => x.Record);
+
+            return _mapper.Map<ResponsePageDto<AdmissionDto>>(admissions);
         }
 
         public async Task<AdmissionDto> DeleteAdmission(int admissionId)

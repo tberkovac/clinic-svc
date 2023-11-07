@@ -108,4 +108,36 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
 
         return responsePage;
     }
+
+    public async Task<ResponsePage<TEntity>> GetFilteredWithIncludesPaginatedAsync(Expression<Func<TEntity, bool>>[] filters, SearchParams searchParams, params Expression<Func<TEntity, object>>[] includeProperties)
+    {
+        var query = _dbContext.Set<TEntity>().AsQueryable();
+
+        foreach (var filter in filters)
+        {
+            query = query.Where(filter);
+        }
+
+        var size = await query.CountAsync();
+
+        query = query.Skip((searchParams.Page - 1) * searchParams.PageSize)
+        .Take(searchParams.PageSize);
+
+        foreach (var includeProperty in includeProperties)
+        {
+            query = query.Include(includeProperty);
+        }
+
+        var data = await query.ToListAsync();
+
+        var responsePage = new ResponsePage<TEntity>
+        {
+            Data = data,
+            NumberOfElements = size,
+            Page = searchParams.Page,
+            PageSize = searchParams.PageSize
+        };
+
+        return responsePage;
+    }
 }
