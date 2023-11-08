@@ -43,6 +43,7 @@ public class PatientsController : ControllerBase
     }
 
     [HttpDelete("Delete/{patientId}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<PatientDto>> DeletePatient(int patientId)
     {
         var result = await _patientService.DeletePatient(patientId);

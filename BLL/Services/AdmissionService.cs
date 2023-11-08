@@ -21,10 +21,19 @@ namespace BLL.Services
             _mapper = mapper;
 		}
 
-        public async Task<ResponsePageDto<AdmissionDto>> GetAllAdmissions(SearchParamsDto searchParamsDto)
+        public async Task<ResponsePageDto<AdmissionDto>> GetAllAdmissions(SearchAdmissionsParamsDto searchParamsDto)
         {
             var searchParams = _mapper.Map<SearchParams>(searchParamsDto);
-            var admissions = await _admissionRepository.GetWithIncludesPaginatedAsync(searchParams, x => x.Doctor, x => x.Patient, x => x.Record);    
+
+            var filters = new List<Expression<Func<Admission, bool>>> { };
+
+            if (searchParamsDto.StartDate.HasValue && searchParamsDto.EndDate.HasValue)
+            {
+                filters.Add(admission => !(admission.AdmissionDate.AddHours(1).CompareTo(searchParamsDto.StartDate.Value) < 0));
+                filters.Add(admission => !(admission.AdmissionDate.AddHours(1).CompareTo(searchParamsDto.EndDate.Value) > 0));
+            }
+
+            var admissions = await _admissionRepository.GetFilteredWithIncludesPaginatedAsync(filters, searchParams, x => x.Doctor, x => x.Patient, x => x.Record);    
             
             return _mapper.Map<ResponsePageDto<AdmissionDto>>(admissions);
         }
@@ -33,7 +42,7 @@ namespace BLL.Services
         {
             var admission = _mapper.Map<Admission>(admissionDto);
             var modifiedDate = admission.AdmissionDate.AddHours(1);
-            if (DateTime.Today.CompareTo(modifiedDate) < 0)
+            if (modifiedDate.CompareTo(DateTime.Today) < 0)
             {
                 throw new Exception("Admission cannot be scheduled in past!");
             }
@@ -43,7 +52,7 @@ namespace BLL.Services
             return admissionDto;
         }
 
-        public async Task<ResponsePageDto<AdmissionDto>> GetDoctorsAdmissions(SearchParamsDto searchParamsDto, int userId)
+        public async Task<ResponsePageDto<AdmissionDto>> GetDoctorsAdmissions(SearchAdmissionsParamsDto searchParamsDto, int userId)
         {
             var doctor = await _doctorRepository.Find(x => x.UserId == userId);
 
@@ -52,11 +61,16 @@ namespace BLL.Services
                 throw new Exception("User with provided id is not doctor!");
             }
 
-            var filters = new Expression<Func<Admission, bool>>[]
+            var filters = new List<Expression<Func<Admission, bool>>>
                 {
-                    entity => entity.DoctorId == doctor.DoctorId,
-
+                    admission => admission.DoctorId == doctor.DoctorId,
                 };
+
+            if (searchParamsDto.StartDate.HasValue && searchParamsDto.EndDate.HasValue)
+            {
+                filters.Add(admission => !(admission.AdmissionDate.AddHours(1).CompareTo(searchParamsDto.StartDate.Value) < 0));
+                filters.Add(admission => !(admission.AdmissionDate.AddHours(1).CompareTo(searchParamsDto.EndDate.Value) > 0));
+            }
 
             var searchParams = _mapper.Map<SearchParams>(searchParamsDto);
 

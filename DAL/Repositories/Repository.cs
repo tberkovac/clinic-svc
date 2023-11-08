@@ -109,7 +109,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
         return responsePage;
     }
 
-    public async Task<ResponsePage<TEntity>> GetFilteredWithIncludesPaginatedAsync(Expression<Func<TEntity, bool>>[] filters, SearchParams searchParams, params Expression<Func<TEntity, object>>[] includeProperties)
+    public async Task<ResponsePage<TEntity>> GetFilteredWithIncludesPaginatedAsync(List<Expression<Func<TEntity, bool>>> filters, SearchParams searchParams, params Expression<Func<TEntity, object>>[] includeProperties)
     {
         var query = _dbContext.Set<TEntity>().AsQueryable();
 

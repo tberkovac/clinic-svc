@@ -12,7 +12,7 @@ public interface IRepository<TEntity> where TEntity : class
     Task<ResponsePage<TEntity>> GetWithIncludesPaginatedAsync(SearchParams searchParams,
             params Expression<Func<TEntity, object>>[] includeProperties);
 
-    Task<ResponsePage<TEntity>> GetFilteredWithIncludesPaginatedAsync(Expression<Func<TEntity, bool>>[] filters,
+    Task<ResponsePage<TEntity>> GetFilteredWithIncludesPaginatedAsync(List<Expression<Func<TEntity, bool>>> filters,
             SearchParams searchParams, params Expression<Func<TEntity, object>>[] includeProperties);
 
     Task<List<TEntity>> GetFilteredWithIncludesAsync(Expression<Func<TEntity, bool>>? filter = null,

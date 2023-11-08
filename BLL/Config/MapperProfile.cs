@@ -14,6 +14,7 @@ public class MapperProfile : Profile
         CreateMap<DAL.Entities.Admission, Dto.AdmissionDto>().ReverseMap();
         CreateMap<DAL.Entities.Record, Dto.RecordDto>().ReverseMap();
         CreateMap<DAL.Entities.SearchParams, Dto.SearchParamsDto>().ReverseMap();
+        CreateMap<DAL.Entities.SearchAdmissionParams, Dto.SearchAdmissionsParamsDto>();
         CreateMap(typeof(DAL.Entities.ResponsePage<>), typeof(Dto.ResponsePageDto<>)).ReverseMap();
     }
 }

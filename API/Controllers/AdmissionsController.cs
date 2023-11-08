@@ -19,7 +19,7 @@ namespace API.Controllers
 
         [HttpGet("GetAll")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ResponsePageDto<AdmissionDto>>> GetAll([FromQuery] SearchParamsDto searchParams)
+        public async Task<ActionResult<ResponsePageDto<AdmissionDto>>> GetAll([FromQuery] SearchAdmissionsParamsDto searchParams)
         {
             var admissions = await _admissionService.GetAllAdmissions(searchParams);
             return admissions;
@@ -35,7 +35,7 @@ namespace API.Controllers
 
 		[HttpGet("GetDoctorsAdmissions/{doctorId}")]
 		[Authorize(Roles = "Admin,Doctor")]
-		public async Task<ActionResult<ResponsePageDto<AdmissionDto>>> GetDoctorsAdmissions([FromQuery] SearchParamsDto searchParams, int doctorId)
+		public async Task<ActionResult<ResponsePageDto<AdmissionDto>>> GetDoctorsAdmissions([FromQuery] SearchAdmissionsParamsDto searchParams, int doctorId)
 		{
 			var admissions = await _admissionService.GetDoctorsAdmissions(searchParams, doctorId);
 			return admissions;
