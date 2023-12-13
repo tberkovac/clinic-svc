@@ -60,7 +60,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
             query = query.Include(includeProperty);
         }
 
-        return await query.ToListAsync();
+        return query.ToListAsync();
     }
 
     public async Task<List<TEntity>> GetFilteredWithIncludesAsync(
@@ -96,7 +96,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
             query = query.Include(includeProperty);
         }
 
-        var data = await query.ToListAsync();
+        var data = query.ToListAsync();
 
         var responsePage = new ResponsePage<TEntity>
         {
