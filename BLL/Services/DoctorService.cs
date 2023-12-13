@@ -37,6 +37,7 @@ namespace BLL.Services
         public async Task<List<DoctorDto>> GetDoctors()
         {
             var doctors = await _doctorRepository.GetWithIncludesAsync(d => d.Title);
+            doctors.Sort((x, y) => x.Surname.CompareTo(y.Surname));
             return _mapper.Map<List<DoctorDto>>(doctors);
         }
 
@@ -59,11 +60,6 @@ namespace BLL.Services
             var doctorList = await _doctorRepository.GetFilteredWithIncludesAsync(d => d.DoctorId == doctorId, d => d.User);
 
             var doctor = doctorList.FirstOrDefault();
-
-            if (doctor == null)
-            {
-                throw new Exception($"There is no doctor with {doctorId} found");
-            }
 
             doctor.IsDeleted = true;
 
