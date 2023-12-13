@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Text.RegularExpressions;
 using AutoMapper;
 using BLL.Dto;
 using BLL.IServices;
@@ -78,6 +79,24 @@ namespace BLL.Services
 
         private User CreateUser(DoctorDto doctorDto)
         {
+            var password = doctorDto.Password;
+
+            if (password.Length < 10)
+            {
+                throw new Exception("Password length is less than 10");
+            }
+
+            if (!Regex.IsMatch(password, @"[!$%&.,]"))
+            {
+                throw new Exception("Password must contain at least one of the following special characters: ! $ % & .,");
+            }
+
+            // Add code for checking if password contains not only lowercases
+            if (!password.Any(char.IsUpper))
+            {
+                throw new Exception("Password must contain at least one uppercase letter");
+            }
+            
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(doctorDto.Password);
             return new User
             {

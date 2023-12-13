@@ -88,7 +88,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
 
         var size = await query.CountAsync();
 
-        query = query.Skip((searchParams.Page) * searchParams.PageSize)
+        query = query.Skip(searchParams.Page * searchParams.PageSize)
         .Take(searchParams.PageSize);
 
         foreach (var includeProperty in includeProperties)
@@ -120,7 +120,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
 
         var size = await query.CountAsync();
 
-        query = query.Skip((searchParams.Page) * searchParams.PageSize)
+        query = query.Skip((searchParams.Page - 1) * searchParams.PageSize)
         .Take(searchParams.PageSize);
 
         foreach (var includeProperty in includeProperties)
