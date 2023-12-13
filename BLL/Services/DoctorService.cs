@@ -62,6 +62,11 @@ namespace BLL.Services
 
             var doctor = doctorList.FirstOrDefault();
 
+            if (doctor == null)
+            {
+                throw new Exception($"Doctor with provided id {doctorId} does not exist");
+            }
+
             doctor.IsDeleted = true;
 
             if (doctor.User == null)
