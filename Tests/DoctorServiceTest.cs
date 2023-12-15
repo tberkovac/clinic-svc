@@ -106,4 +106,447 @@ public class DoctorServiceTests
     }
 
     // Add more tests for other methods as needed
+
+    [TestClass]
+public class DoctorServiceTests
+{
+    private Mock<IDoctorRepository> _doctorRepositoryMock;
+    private IMapper _mapper;
+
+    [TestInitialize]
+    public void Initialize()
+    {
+        _doctorRepositoryMock = new Mock<IDoctorRepository>();
+        _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<YourMappingProfile>()));
+    }
+
+    [TestMethod]
+    public async Task DeleteDoctor_ExistingDoctor_DeletesDoctorAndUser()
+    {
+        // Arrange
+        var doctorId = 1;
+        var doctor = new Doctor { DoctorId = doctorId, User = new User() };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await doctorService.DeleteDoctor(doctorId);
+
+        // Assert
+        Assert.IsTrue(doctor.IsDeleted);
+        Assert.IsTrue(doctor.User.IsDeleted);
+        Assert.IsFalse(doctor.User.IsActivated);
+        _doctorRepositoryMock.Verify(repo => repo.SaveChangesAsync(), Times.Once);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Doctor with provided id 2 does not exist")]
+    public async Task DeleteDoctor_NonExistingDoctor_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 2;
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor>());
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await doctorService.DeleteDoctor(doctorId);
+
+        // Assert
+        // Exception expected
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Did you forget to include User reference?")]
+    public async Task DeleteDoctor_DoctorWithoutUser_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 3;
+        var doctor = new Doctor { DoctorId = doctorId, User = null };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await doctorService.DeleteDoctor(doctorId);
+
+        // Assert
+        // Exception expected
+    }
 }
+[TestClass]
+public class DoctorServiceTests
+{
+    private Mock<IDoctorRepository> _doctorRepositoryMock;
+    private IMapper _mapper;
+
+    [TestInitialize]
+    public void Initialize()
+    {
+        _doctorRepositoryMock = new Mock<IDoctorRepository>();
+        _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<YourMappingProfile>()));
+    }
+
+    [TestMethod]
+    public async Task DeleteDoctor_ExistingDoctor_DeletesDoctorAndUser()
+    {
+        // Arrange
+        var doctorId = 1;
+        var doctor = new Doctor { DoctorId = doctorId, User = new User() };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await doctorService.DeleteDoctor(doctorId);
+
+        // Assert
+        Assert.IsTrue(doctor.IsDeleted);
+        Assert.IsTrue(doctor.User.IsDeleted);
+        Assert.IsFalse(doctor.User.IsActivated);
+        _doctorRepositoryMock.Verify(repo => repo.SaveChangesAsync(), Times.Once);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Doctor with provided id 2 does not exist")]
+    public async Task DeleteDoctor_NonExistingDoctor_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 2;
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor>());
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await doctorService.DeleteDoctor(doctorId);
+
+        // Assert
+        // Exception expected
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Did you forget to include User reference?")]
+    public async Task DeleteDoctor_DoctorWithoutUser_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 3;
+        var doctor = new Doctor { DoctorId = doctorId, User = null };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await doctorService.DeleteDoctor(doctorId);
+
+        // Assert
+        // Exception expected
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Doctor with provided id 4 does not exist")]
+    public async Task DeleteDoctor_ExistingDoctorWithoutUser_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 4;
+        var doctor = new Doctor { DoctorId = doctorId, User = null };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await doctorService.DeleteDoctor(doctorId);
+
+        // Assert
+        // Exception expected
+    }
+}
+
+[TestClass]
+public class DoctorServiceTests
+{
+    private Mock<IDoctorRepository> _doctorRepositoryMock;
+    private IMapper _mapper;
+
+    [TestInitialize]
+    public void Initialize()
+    {
+        _doctorRepositoryMock = new Mock<IDoctorRepository>();
+        _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<YourMappingProfile>()));
+    }
+
+    [TestMethod]
+    public async Task DeleteDoctor_ExistingDoctor_DeletesDoctorAndUser()
+    {
+        // Arrange
+        var doctorId = 1;
+        var doctor = new Doctor { DoctorId = doctorId, User = new User() };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await doctorService.DeleteDoctor(doctorId);
+
+        // Assert
+        Assert.IsTrue(doctor.IsDeleted);
+        Assert.IsTrue(doctor.User.IsDeleted);
+        Assert.IsFalse(doctor.User.IsActivated);
+        _doctorRepositoryMock.Verify(repo => repo.SaveChangesAsync(), Times.Once);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Doctor with provided id 2 does not exist")]
+    public async Task DeleteDoctor_NonExistingDoctor_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 2;
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor>());
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await doctorService.DeleteDoctor(doctorId);
+
+        // Assert
+        // Exception expected
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Did you forget to include User reference?")]
+    public async Task DeleteDoctor_DoctorWithoutUser_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 3;
+        var doctor = new Doctor { DoctorId = doctorId, User = null };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await doctorService.DeleteDoctor(doctorId);
+
+        // Assert
+        // Exception expected
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Doctor with provided id 4 does not exist")]
+    public async Task DeleteDoctor_ExistingDoctorWithoutUser_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 4;
+        var doctor = new Doctor { DoctorId = doctorId, User = null };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await doctorService.DeleteDoctor(doctorId);
+
+        // Assert
+        // Exception expected
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Did you forget to include User reference?")]
+    public async Task DeleteDoctor_ExistingDoctorWithoutActivatedUser_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 5;
+        var doctor = new Doctor { DoctorId = doctorId, User = new User { IsActivated = false } };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await doctorService.DeleteDoctor(doctorId);
+
+        // Assert
+        // Exception expected
+    }
+}
+[TestClass]
+public class DoctorServiceTests
+{
+    private Mock<IDoctorRepository> _doctorRepositoryMock;
+    private IMapper _mapper;
+
+    [TestInitialize]
+    public void Initialize()
+    {
+        _doctorRepositoryMock = new Mock<IDoctorRepository>();
+        _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<YourMappingProfile>()));
+    }
+
+    [TestMethod]
+    public async Task DeleteDoctor_ExistingDoctor_DeletesDoctorAndUser()
+    {
+        // Arrange
+        var doctorId = 1;
+        var doctor = new Doctor { DoctorId = doctorId, User = new User { IsActivated = true } };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await doctorService.DeleteDoctor(doctorId);
+
+        // Assert
+        Assert.IsTrue(doctor.IsDeleted); // Data flow from method parameter to doctor
+        Assert.IsTrue(doctor.User.IsDeleted); // Data flow from doctor to user
+        Assert.IsFalse(doctor.User.IsActivated); // Data flow from doctor to user
+        _doctorRepositoryMock.Verify(repo => repo.SaveChangesAsync(), Times.Once); // Data flow from user to repository
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Doctor with provided id 2 does not exist")]
+    public async Task DeleteDoctor_NonExistingDoctor_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 2;
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor>());
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await Assert.ThrowsExceptionAsync<Exception>(() => doctorService.DeleteDoctor(doctorId));
+
+        // Assert
+        // Exception expected
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Did you forget to include User reference?")]
+    public async Task DeleteDoctor_DoctorWithoutUser_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 3;
+        var doctor = new Doctor { DoctorId = doctorId, User = null };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await Assert.ThrowsExceptionAsync<Exception>(() => doctorService.DeleteDoctor(doctorId));
+
+        // Assert
+        // Exception expected
+    }
+}
+[TestClass]
+public class DoctorServiceTests
+{
+    private Mock<IDoctorRepository> _doctorRepositoryMock;
+    private IMapper _mapper;
+
+    [TestInitialize]
+    public void Initialize()
+    {
+        _doctorRepositoryMock = new Mock<IDoctorRepository>();
+        _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<YourMappingProfile>()));
+    }
+
+    [TestMethod]
+    public async Task DeleteDoctor_ExistingDoctor_DeletesDoctorAndUser()
+    {
+        // Arrange
+        var doctorId = 1;
+        var doctor = new Doctor { DoctorId = doctorId, User = new User { IsActivated = true } };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act
+        await doctorService.DeleteDoctor(doctorId);
+
+        // Assert
+        Assert.IsTrue(doctor.IsDeleted); // Path: Existing doctor with activated user
+        Assert.IsTrue(doctor.User.IsDeleted);
+        Assert.IsFalse(doctor.User.IsActivated);
+        _doctorRepositoryMock.Verify(repo => repo.SaveChangesAsync(), Times.Once);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Doctor with provided id 2 does not exist")]
+    public async Task DeleteDoctor_NonExistingDoctor_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 2;
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor>());
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act & Assert
+        await Assert.ThrowsExceptionAsync<Exception>(() => doctorService.DeleteDoctor(doctorId)); // Path: Non-existing doctor
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Did you forget to include User reference?")]
+    public async Task DeleteDoctor_DoctorWithoutUser_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 3;
+        var doctor = new Doctor { DoctorId = doctorId, User = null };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act & Assert
+        await Assert.ThrowsExceptionAsync<Exception>(() => doctorService.DeleteDoctor(doctorId)); // Path: Doctor without user
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Doctor with provided id 4 does not exist")]
+    public async Task DeleteDoctor_ExistingDoctorWithoutUser_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 4;
+        var doctor = new Doctor { DoctorId = doctorId, User = null };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act & Assert
+        await Assert.ThrowsExceptionAsync<Exception>(() => doctorService.DeleteDoctor(doctorId)); // Path: Existing doctor without user
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Exception), "Did you forget to include User reference?")]
+    public async Task DeleteDoctor_ExistingDoctorWithoutActivatedUser_ThrowsException()
+    {
+        // Arrange
+        var doctorId = 5;
+        var doctor = new Doctor { DoctorId = doctorId, User = new User { IsActivated = false } };
+        _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(It.IsAny<Expression<Func<Doctor, bool>>>(), It.IsAny<Expression<Func<Doctor, object>>>()))
+                             .ReturnsAsync(new List<Doctor> { doctor });
+
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _mapper);
+
+        // Act & Assert
+        await Assert.ThrowsExceptionAsync<Exception>(() => doctorService.DeleteDoctor(doctorId)); // Path: Existing doctor with non-activated user
+    }
+}
+
+}
+
+
