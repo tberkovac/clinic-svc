@@ -12,12 +12,14 @@ namespace BLL.Services
 	{
         private readonly IAdmissionRepository _admissionRepository;
         private readonly IDoctorRepository _doctorRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-		public AdmissionService(IAdmissionRepository admissionRepository, IDoctorRepository doctorRepository, IMapper mapper)
+		public AdmissionService(IAdmissionRepository admissionRepository, IDoctorRepository doctorRepository, IUserRepository userRepository, IMapper mapper)
 		{
             _admissionRepository = admissionRepository;
             _doctorRepository = doctorRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
 		}
 
@@ -42,10 +44,35 @@ namespace BLL.Services
         {
             var admission = _mapper.Map<Admission>(admissionDto);
             var modifiedDate = admission.AdmissionDate.AddHours(1);
+
             if (modifiedDate.CompareTo(DateTime.Today) < 0)
             {
                 throw new Exception("Admission cannot be scheduled in past!");
             }
+
+            int doctorId = admission.DoctorId;
+
+            var doctorList = await _doctorRepository.GetFilteredWithIncludesAsync(x => x.
+            DoctorId == doctorId, x => x.User);
+
+            var doctor = doctorList.FirstOrDefault();
+
+            if (doctor == null)
+            {
+                throw new Exception($"Doctor with provided id: {doctorId}, could not be found!");
+            }
+
+            var userList = await _userRepository.GetFilteredWithIncludesAsync(x => x.UserId == doctor.UserId,
+               x => x.LeaveRequest);
+
+            var user = userList.FirstOrDefault();
+
+            if (!doctor.User.IsActivated && admission.AdmissionDate <= user!.LeaveRequest.EndDate
+                    && admission.AdmissionDate>= user!.LeaveRequest.StartDate )
+            {
+                throw new Exception($"Doctor is currently on well deserved vacation in requested period!");
+            }
+
             _admissionRepository.Add(admission);
             await _admissionRepository.SaveChangesAsync();
             admissionDto.AdmissionId = admission.AdmissionId;

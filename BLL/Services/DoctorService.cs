@@ -37,7 +37,7 @@ namespace BLL.Services
 
         public async Task<List<DoctorDto>> GetDoctors()
         {
-            var doctors = await _doctorRepository.GetWithIncludesAsync(d => d.Title);
+            var doctors = await _doctorRepository.GetWithIncludesAsync(d => d.Title, d => d.User);
             doctors.Sort((x, y) => x.Surname.CompareTo(y.Surname));
             return _mapper.Map<List<DoctorDto>>(doctors);
         }

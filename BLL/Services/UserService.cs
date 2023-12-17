@@ -8,6 +8,7 @@ using BLL.Dto;
 using BLL.IServices;
 using DAL.Entities;
 using DAL.IRepositories;
+using DAL.Repositories;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BLL.Services
@@ -15,11 +16,13 @@ namespace BLL.Services
 	public class UserService : IUserService
 	{
         private readonly IUserRepository _userRepository;
+        private readonly ILeaveRequestRepository _leaveRequestRepository;
         private readonly IMapper _mapper;
 
-		public UserService(IUserRepository userRepository, IMapper mapper)
+		public UserService(IUserRepository userRepository, ILeaveRequestRepository leaveRequestRepository, IMapper mapper)
 		{
             _userRepository = userRepository;
+            _leaveRequestRepository = leaveRequestRepository;
             _mapper = mapper;
 		}
 
@@ -40,6 +43,87 @@ namespace BLL.Services
             var token = CreateToken(user);
 
             return token;
+        }
+
+
+        public async Task<LeaveRequestDto> CreateLeaveRequest(LeaveRequestDto leaveRequestDto, int userId)
+        {
+            var userList = await _userRepository.GetFilteredWithIncludesAsync(x=> x.UserId == userId, x=> x.LeaveRequest);
+
+            var user = userList.FirstOrDefault();
+
+            if (user == null)
+            {
+                throw new Exception($"User with provided id: {userId}, does not exist");
+            }
+
+            if (!user.IsActivated)
+            {
+                throw new Exception($"User with provided id: {userId}, is already on vacation");
+            }
+
+            if (user.LeaveRequest != null && user.IsActivated)
+            {
+                throw new Exception($"User with provided id: {userId}, have already scheduled leave request in future");
+            }
+
+            var leaveRequest = _mapper.Map<LeaveRequest>(leaveRequestDto);
+            leaveRequest.OldUserId = user.UserId;
+            leaveRequest.IsActive = false;
+            user.LeaveRequest = leaveRequest;
+
+            await _userRepository.SaveChangesAsync();
+
+            return _mapper.Map<LeaveRequestDto>(leaveRequest);
+        }
+
+        public async Task<bool> ApproveLeaveRequest(int userId)
+        {
+            var userList = await _userRepository.GetFilteredWithIncludesAsync(x => x.UserId == userId, x => x.LeaveRequest);
+
+            var user = userList.FirstOrDefault();
+
+            if (user == null)
+            {
+                throw new Exception($"User with provided id: {userId}, does not exist");
+            }
+
+            if (user.LeaveRequest == null)
+            {
+                throw new Exception($"There is no opened vacation for user with  provided id: {userId}");
+            }
+
+            user.IsActivated = false;
+            user.LeaveRequest.IsActive = true;
+
+            await _userRepository.SaveChangesAsync();
+;
+            return true;
+        }
+
+        public async Task<bool> RevokeLeaveRequest(int userId)
+        {
+            var userList = await _userRepository.GetFilteredWithIncludesAsync(x => x.UserId == userId, x => x.LeaveRequest);
+
+            var user = userList.FirstOrDefault();
+
+            if (user == null)
+            {
+                throw new Exception($"User with provided id: {userId}, does not exist");
+            }
+
+            if (user.LeaveRequest == null)
+            {
+                throw new Exception($"User with provided id: {userId}, does not have open leave requests!");
+            }
+
+            user.IsActivated = true;
+            user.LeaveRequest.IsActive = false;
+            user.LeaveRequestId = null;
+
+            await _userRepository.SaveChangesAsync();
+            
+            return true;
         }
 
         private TokenResponse CreateToken(User user)

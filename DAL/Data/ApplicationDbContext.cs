@@ -45,4 +45,5 @@ public class ApplicationDbContext : DbContext
     public DbSet<Doctor> Doctors { get; set; }
     public DbSet<Title> Titles { get; set; }
     public DbSet<Admission> Admissions { get; set; }
+    public DbSet<LeaveRequest> LeaveRequests { get; set; }
 }

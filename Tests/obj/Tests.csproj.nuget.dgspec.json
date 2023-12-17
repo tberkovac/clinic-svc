@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/hanabisevac/Projects/clinic-svc/Tests/Tests.csproj": {}
+    "/Users/tarik/Documents/Berg Klinika/clinic-svc/Tests/Tests.csproj": {}
   },
   "projects": {
-    "/Users/hanabisevac/Projects/clinic-svc/BLL/BLL.csproj": {
+    "/Users/tarik/Documents/Berg Klinika/clinic-svc/BLL/BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/hanabisevac/Projects/clinic-svc/BLL/BLL.csproj",
+        "projectUniqueName": "/Users/tarik/Documents/Berg Klinika/clinic-svc/BLL/BLL.csproj",
         "projectName": "BLL",
-        "projectPath": "/Users/hanabisevac/Projects/clinic-svc/BLL/BLL.csproj",
-        "packagesPath": "/Users/hanabisevac/.nuget/packages/",
-        "outputPath": "/Users/hanabisevac/Projects/clinic-svc/BLL/obj/",
+        "projectPath": "/Users/tarik/Documents/Berg Klinika/clinic-svc/BLL/BLL.csproj",
+        "packagesPath": "/Users/tarik/.nuget/packages/",
+        "outputPath": "/Users/tarik/Documents/Berg Klinika/clinic-svc/BLL/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/hanabisevac/.nuget/NuGet/NuGet.Config"
+          "/Users/tarik/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -26,8 +26,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "/Users/hanabisevac/Projects/clinic-svc/DAL/DAL.csproj": {
-                "projectPath": "/Users/hanabisevac/Projects/clinic-svc/DAL/DAL.csproj"
+              "/Users/tarik/Documents/Berg Klinika/clinic-svc/DAL/DAL.csproj": {
+                "projectPath": "/Users/tarik/Documents/Berg Klinika/clinic-svc/DAL/DAL.csproj"
               }
             }
           }
@@ -75,21 +75,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.403/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.400/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/hanabisevac/Projects/clinic-svc/DAL/DAL.csproj": {
+    "/Users/tarik/Documents/Berg Klinika/clinic-svc/DAL/DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/hanabisevac/Projects/clinic-svc/DAL/DAL.csproj",
+        "projectUniqueName": "/Users/tarik/Documents/Berg Klinika/clinic-svc/DAL/DAL.csproj",
         "projectName": "DAL",
-        "projectPath": "/Users/hanabisevac/Projects/clinic-svc/DAL/DAL.csproj",
-        "packagesPath": "/Users/hanabisevac/.nuget/packages/",
-        "outputPath": "/Users/hanabisevac/Projects/clinic-svc/DAL/obj/",
+        "projectPath": "/Users/tarik/Documents/Berg Klinika/clinic-svc/DAL/DAL.csproj",
+        "packagesPath": "/Users/tarik/.nuget/packages/",
+        "outputPath": "/Users/tarik/Documents/Berg Klinika/clinic-svc/DAL/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/hanabisevac/.nuget/NuGet/NuGet.Config"
+          "/Users/tarik/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -154,21 +154,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.403/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.400/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/hanabisevac/Projects/clinic-svc/Tests/Tests.csproj": {
+    "/Users/tarik/Documents/Berg Klinika/clinic-svc/Tests/Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/hanabisevac/Projects/clinic-svc/Tests/Tests.csproj",
+        "projectUniqueName": "/Users/tarik/Documents/Berg Klinika/clinic-svc/Tests/Tests.csproj",
         "projectName": "Tests",
-        "projectPath": "/Users/hanabisevac/Projects/clinic-svc/Tests/Tests.csproj",
-        "packagesPath": "/Users/hanabisevac/.nuget/packages/",
-        "outputPath": "/Users/hanabisevac/Projects/clinic-svc/Tests/obj/",
+        "projectPath": "/Users/tarik/Documents/Berg Klinika/clinic-svc/Tests/Tests.csproj",
+        "packagesPath": "/Users/tarik/.nuget/packages/",
+        "outputPath": "/Users/tarik/Documents/Berg Klinika/clinic-svc/Tests/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/hanabisevac/.nuget/NuGet/NuGet.Config"
+          "/Users/tarik/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -180,11 +180,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "/Users/hanabisevac/Projects/clinic-svc/BLL/BLL.csproj": {
-                "projectPath": "/Users/hanabisevac/Projects/clinic-svc/BLL/BLL.csproj"
+              "/Users/tarik/Documents/Berg Klinika/clinic-svc/BLL/BLL.csproj": {
+                "projectPath": "/Users/tarik/Documents/Berg Klinika/clinic-svc/BLL/BLL.csproj"
               },
-              "/Users/hanabisevac/Projects/clinic-svc/DAL/DAL.csproj": {
-                "projectPath": "/Users/hanabisevac/Projects/clinic-svc/DAL/DAL.csproj"
+              "/Users/tarik/Documents/Berg Klinika/clinic-svc/DAL/DAL.csproj": {
+                "projectPath": "/Users/tarik/Documents/Berg Klinika/clinic-svc/DAL/DAL.csproj"
               }
             }
           }
@@ -242,7 +242,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.403/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.400/RuntimeIdentifierGraph.json"
         }
       }
     }

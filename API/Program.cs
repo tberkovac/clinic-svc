@@ -62,13 +62,13 @@ builder.Services.AddScoped(typeof(IDoctorRepository), typeof(DoctorRepository));
 builder.Services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
 builder.Services.AddScoped(typeof(IAdmissionRepository), typeof(AdmissionRepository));
 builder.Services.AddScoped(typeof(IRecordRepository), typeof(RecordRepository));
+builder.Services.AddScoped(typeof(ILeaveRequestRepository), typeof(LeaveRequestRepository));
 
 builder.Services.AddScoped(typeof(IPatientService), typeof(PatientService));
 builder.Services.AddScoped(typeof(IDoctorService), typeof(DoctorService));
 builder.Services.AddScoped(typeof(IUserService), typeof(UserService));
 builder.Services.AddScoped(typeof(IAdmissionService), typeof(AdmissionService));
 builder.Services.AddScoped(typeof(IRecordService), typeof(RecordService));
-
 
 var app = builder.Build();
 

@@ -38,6 +38,37 @@ namespace API.Controllers
 
             return Ok(user);
         }
+
+        [HttpPost("CreateLeaveRequest")]
+        [Authorize]
+        public async Task<ActionResult<LeaveRequestDto>> CreateLeaveRequest(LeaveRequestDto leaveRequestDto)
+        {
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out var userId))
+            {
+                return BadRequest("Invalid user ID claim.");
+            }
+
+            var result = await _userService.CreateLeaveRequest(leaveRequestDto, userId);
+            return Ok(result);
+        }
+
+        [HttpPut("ApproveLeaveRequest/{userId}")]
+        [Authorize(Roles = "Admin,Doctor")] //Need to remove doctor from authrized roles
+        public async Task<ActionResult<bool>> ApproveLeaveRequest(int userId)
+        {
+            var result = await _userService.ApproveLeaveRequest(userId);
+            return Ok(result);
+        }
+
+        [HttpPut("RevokeLeaveRequest/{userId}")]
+        [Authorize(Roles = "Admin,Doctor")] //Need to remove doctor from authrized roles
+        public async Task<ActionResult<bool>> RevokeLeaveRequest(int userId)
+        {
+            var result = await _userService.RevokeLeaveRequest(userId);
+            return Ok(result);
+        }
     }
 }
 

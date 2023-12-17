@@ -8,6 +8,8 @@ namespace DAL.Entities
         public required byte[] PasswordHash { get; set; }
 		public int RoleId { get; set; }
 		public Role? Role { get; set; }
+		public int? LeaveRequestId { get; set; }
+		public LeaveRequest LeaveRequest { get; set; }
 		public bool IsDeleted { get; set; }
 		public bool IsActivated { get; set; }
 	}

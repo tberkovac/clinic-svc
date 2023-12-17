@@ -14,14 +14,19 @@ namespace Tests
 	{
 		public Mock<IAdmissionRepository> _admissionRepositoryMock;
 		public Mock<IDoctorRepository> _doctorRepositoryMock;
+        public Mock<IUserRepository> _userRepositoryMock;
 		public Mock<IMapper> _mapper;
 		public Fixture _fixture = new Fixture();
+        public AdmissionService admissionService;
 
 		public AdmissionServiceTest()
 		{
 			_admissionRepositoryMock = new Mock<IAdmissionRepository>();
 			_doctorRepositoryMock = new Mock<IDoctorRepository>();
+            _userRepositoryMock = new Mock<IUserRepository>();
 			_mapper = new Mock<IMapper>();
+            admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object,
+                                _userRepositoryMock.Object, _mapper.Object);
 		}
 
 		[Fact]
@@ -42,8 +47,6 @@ namespace Tests
                 It.IsAny<Expression<Func<Admission, object>>[]>()))
                 .ReturnsAsync(admissions);
 
-            var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
-
             // Act
             var result = await admissionService.GetAllAdmissions(searchParamsDto);
 
@@ -57,13 +60,23 @@ namespace Tests
         {
             //Arrange
             var admissionDto = _fixture.Build<AdmissionDto>().With(x => x.AdmissionDate, DateTime.Now).Create();
-            var admission = _fixture.Build<Admission>().With(x => x.AdmissionDate, DateTime.Now).Create();
+            var admission = _fixture.Build<Admission>().With(x => x.AdmissionDate, DateTime.Now).With(x => x.DoctorId, 3).Create();
+            var user = _fixture.Build<User>().With(x => x.IsActivated, true).Create();
+            var doctor = _fixture.Build<Doctor>().With(x => x.DoctorId, 3).With(x => x.User, user).Create();
 
             _mapper.Setup(x => x.Map<Admission>(admissionDto)).Returns(admission);
             _admissionRepositoryMock.Setup(repo => repo.Add(admission));
             _admissionRepositoryMock.Setup(repo => repo.SaveChangesAsync());
+            _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(
+                It.IsAny<Expression<Func<Doctor, bool>>>(),
+                It.IsAny<Expression<Func<Doctor, object>>[]>()))
+                .ReturnsAsync(new List<Doctor> { doctor });
+            _userRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(
+                It.IsAny<Expression<Func<User, bool>>>(),
+                It.IsAny<Expression<Func<User, object>>[]>()))
+                .ReturnsAsync(new List<User> { user });
 
-            var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
+            //  var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
 
             //Act
             var result = await admissionService.Create(admissionDto);
@@ -71,6 +84,30 @@ namespace Tests
             //Assert
             Assert.NotNull(result);
             Assert.Equal(admission.AdmissionId, result.AdmissionId);
+        }
+
+        [Fact]
+        public async Task Create_CreatesAdmissionForNonExistingDoctor_ThrowsException()
+        {
+            //Arrange
+            var admissionDto = _fixture.Build<AdmissionDto>().With(x => x.AdmissionDate, DateTime.Now).Create();
+            var admission = _fixture.Build<Admission>().With(x => x.AdmissionDate, DateTime.Now).With(x => x.DoctorId, 3).Create();
+            var user = _fixture.Build<User>().With(x => x.IsActivated, true).Create();
+            var doctor = _fixture.Build<Doctor>().With(x => x.DoctorId, 3).With(x => x.User, user).Create();
+
+            _mapper.Setup(x => x.Map<Admission>(admissionDto)).Returns(admission);
+            _admissionRepositoryMock.Setup(repo => repo.Add(admission));
+            _admissionRepositoryMock.Setup(repo => repo.SaveChangesAsync());
+            _doctorRepositoryMock.Setup(repo => repo.GetFilteredWithIncludesAsync(
+                It.IsAny<Expression<Func<Doctor, bool>>>(),
+                It.IsAny<Expression<Func<Doctor, object>>[]>()))
+                .ReturnsAsync(new List<Doctor> { });
+
+            //  var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
+
+            //Act and assert
+            var result = await Assert.ThrowsAsync<Exception>(() => admissionService.Create(admissionDto));
+            Assert.Equal("Doctor with provided id: 3, could not be found!", result.Message);
         }
 
         [Fact]
@@ -82,7 +119,7 @@ namespace Tests
 
             _mapper.Setup(x => x.Map<Admission>(admissionDto)).Returns(admission);
 
-            var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
+          //  var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
 
             //Act & Assert
             var result = await Assert.ThrowsAsync<Exception>(() => admissionService.Create(admissionDto));
@@ -110,7 +147,7 @@ namespace Tests
             _mapper.Setup(x => x.Map<SearchParams>(searchParamsDto)).Returns(searchParams);
             _mapper.Setup(mapper => mapper.Map<ResponsePageDto<AdmissionDto>>(admissions)).Returns(admissionDtos);
 
-            var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
+         //   var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
 
             //Act
             var result = await admissionService.GetDoctorsAdmissions(searchParamsDto, userID);
@@ -129,7 +166,7 @@ namespace Tests
             var searchParamsDto = _fixture.Create<SearchAdmissionsParamsDto>();
             _doctorRepositoryMock.Setup(repo => repo.Find(It.IsAny<Expression<Func<Doctor, bool>>>())).ReturnsAsync(null as Doctor);
 
-            var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
+       //     var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
 
             //Act & Assert
             var result = await Assert.ThrowsAsync<Exception>(() => admissionService.GetDoctorsAdmissions(searchParamsDto, userID));
@@ -149,7 +186,7 @@ namespace Tests
             _admissionRepositoryMock.Setup(repo => repo.SaveChangesAsync());
             _mapper.Setup(x => x.Map<AdmissionDto>(admission)).Returns(admissionDto);
 
-            var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
+         //   var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
 
             //Act
             var result = await admissionService.DeleteAdmission(admissionId);
@@ -174,7 +211,7 @@ namespace Tests
             _admissionRepositoryMock.Setup(repo => repo.Remove(admission));
             _mapper.Setup(x => x.Map<AdmissionDto>(admission)).Returns(admissionDto);
 
-            var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
+        //    var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
 
             //Act
             var result = await admissionService.DeleteAdmission(admissionId);
@@ -195,7 +232,7 @@ namespace Tests
           
             _admissionRepositoryMock.Setup(repo => repo.GetById(admissionId)).ReturnsAsync(null as Admission);
 
-            var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
+        //    var admissionService = new AdmissionService(_admissionRepositoryMock.Object, _doctorRepositoryMock.Object, _mapper.Object);
 
             //Act & Assert
             var result = await Assert.ThrowsAsync<Exception>(() => admissionService.DeleteAdmission(admissionId));

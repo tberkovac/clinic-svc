@@ -1,4 +1,3 @@
-/Users/tarik/Documents/Berg Klinika/clinic-svc/Tests/bin/Debug/net7.0/CoverletSourceRootsMapping
 /Users/tarik/Documents/Berg Klinika/clinic-svc/Tests/bin/Debug/net7.0/xunit.runner.visualstudio.dotnetcore.testadapter.dll
 /Users/tarik/Documents/Berg Klinika/clinic-svc/Tests/bin/Debug/net7.0/xunit.runner.reporters.netcoreapp10.dll
 /Users/tarik/Documents/Berg Klinika/clinic-svc/Tests/bin/Debug/net7.0/xunit.runner.utility.netcoreapp10.dll
@@ -261,3 +260,4 @@
 /Users/hanabisevac/Projects/clinic-svc/Tests/obj/Debug/net7.0/Tests.pdb
 /Users/hanabisevac/Projects/clinic-svc/Tests/obj/Debug/net7.0/Tests.genruntimeconfig.cache
 /Users/hanabisevac/Projects/clinic-svc/Tests/obj/Debug/net7.0/ref/Tests.dll
+/Users/tarik/Documents/Berg Klinika/clinic-svc/Tests/bin/Debug/net7.0/Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
