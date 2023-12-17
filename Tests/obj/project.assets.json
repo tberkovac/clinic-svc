@@ -64,12 +64,6 @@
           }
         }
       },
-      "coverlet.collector/3.2.0": {
-        "type": "package",
-        "build": {
-          "build/netstandard1.0/coverlet.collector.targets": {}
-        }
-      },
       "Fare/2.1.1": {
         "type": "package",
         "dependencies": {
@@ -687,6 +681,19 @@
         },
         "build": {
           "build/netcoreapp3.1/Microsoft.TestPlatform.TestHost.props": {}
+        }
+      },
+      "Microsoft.VisualStudio.UnitTesting/11.0.50727.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net45/Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll": {
+            "related": ".xml"
+          }
         }
       },
       "Microsoft.Win32.Primitives/4.3.0": {
@@ -2343,59 +2350,6 @@
         "readme.txt"
       ]
     },
-    "coverlet.collector/3.2.0": {
-      "sha512": "xjY8xBigSeWIYs4I7DgUHqSNoGqnHi7Fv7/7RZD02rvZyG3hlsjnQKiVKVWKgr9kRKgmV+dEfu8KScvysiC0Wg==",
-      "type": "package",
-      "path": "coverlet.collector/3.2.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "build/netstandard1.0/Microsoft.Bcl.AsyncInterfaces.dll",
-        "build/netstandard1.0/Microsoft.CSharp.dll",
-        "build/netstandard1.0/Microsoft.DotNet.PlatformAbstractions.dll",
-        "build/netstandard1.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
-        "build/netstandard1.0/Microsoft.Extensions.DependencyInjection.dll",
-        "build/netstandard1.0/Microsoft.Extensions.DependencyModel.dll",
-        "build/netstandard1.0/Microsoft.Extensions.FileSystemGlobbing.dll",
-        "build/netstandard1.0/Microsoft.TestPlatform.CoreUtilities.dll",
-        "build/netstandard1.0/Microsoft.TestPlatform.PlatformAbstractions.dll",
-        "build/netstandard1.0/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll",
-        "build/netstandard1.0/Mono.Cecil.Mdb.dll",
-        "build/netstandard1.0/Mono.Cecil.Pdb.dll",
-        "build/netstandard1.0/Mono.Cecil.Rocks.dll",
-        "build/netstandard1.0/Mono.Cecil.dll",
-        "build/netstandard1.0/Newtonsoft.Json.dll",
-        "build/netstandard1.0/NuGet.Frameworks.dll",
-        "build/netstandard1.0/System.AppContext.dll",
-        "build/netstandard1.0/System.Collections.Immutable.dll",
-        "build/netstandard1.0/System.Dynamic.Runtime.dll",
-        "build/netstandard1.0/System.IO.FileSystem.Primitives.dll",
-        "build/netstandard1.0/System.Linq.Expressions.dll",
-        "build/netstandard1.0/System.Linq.dll",
-        "build/netstandard1.0/System.ObjectModel.dll",
-        "build/netstandard1.0/System.Reflection.Emit.ILGeneration.dll",
-        "build/netstandard1.0/System.Reflection.Emit.Lightweight.dll",
-        "build/netstandard1.0/System.Reflection.Emit.dll",
-        "build/netstandard1.0/System.Reflection.Metadata.dll",
-        "build/netstandard1.0/System.Reflection.TypeExtensions.dll",
-        "build/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll",
-        "build/netstandard1.0/System.Runtime.Serialization.Primitives.dll",
-        "build/netstandard1.0/System.Text.RegularExpressions.dll",
-        "build/netstandard1.0/System.Threading.Tasks.Extensions.dll",
-        "build/netstandard1.0/System.Threading.dll",
-        "build/netstandard1.0/System.Xml.ReaderWriter.dll",
-        "build/netstandard1.0/System.Xml.XDocument.dll",
-        "build/netstandard1.0/coverlet.collector.deps.json",
-        "build/netstandard1.0/coverlet.collector.dll",
-        "build/netstandard1.0/coverlet.collector.pdb",
-        "build/netstandard1.0/coverlet.collector.targets",
-        "build/netstandard1.0/coverlet.core.dll",
-        "build/netstandard1.0/coverlet.core.pdb",
-        "coverlet-icon.png",
-        "coverlet.collector.3.2.0.nupkg.sha512",
-        "coverlet.collector.nuspec"
-      ]
-    },
     "Fare/2.1.1": {
       "sha512": "HaI8puqA66YU7/9cK4Sgbs1taUTP1Ssa4QT2PIzqJ7GvAbN1QgkjbRsjH+FSbMh1MJdvS0CIwQNLtFT+KF6KpA==",
       "type": "package",
@@ -3210,6 +3164,24 @@
         "lib/netcoreapp3.1/zh-Hant/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
         "microsoft.testplatform.testhost.17.6.0.nupkg.sha512",
         "microsoft.testplatform.testhost.nuspec"
+      ]
+    },
+    "Microsoft.VisualStudio.UnitTesting/11.0.50727.1": {
+      "sha512": "DoqQ6Zl7GcytRa1isWv20MyV1znFRDje6k/y3edbew3Qx/Z1r5Cf6rBktD7lGxN97d2VVC5RzdFHw+dci9lsMw==",
+      "type": "package",
+      "path": "microsoft.visualstudio.unittesting/11.0.50727.1",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "THIRD-PARTY-LICENSE.txt",
+        "lib/net45/Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll",
+        "lib/net45/Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml",
+        "microsoft.visualstudio.unittesting.11.0.50727.1.nupkg.sha512",
+        "microsoft.visualstudio.unittesting.nuspec",
+        "tools/net45/MSTest.exe",
+        "tools/net45/MSTest.exe.config"
       ]
     },
     "Microsoft.Win32.Primitives/4.3.0": {
@@ -6944,26 +6916,26 @@
       "BLL >= 1.0.0",
       "DAL >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 17.6.0",
+      "Microsoft.VisualStudio.UnitTesting >= 11.0.50727.1",
       "Moq >= 4.20.70",
-      "coverlet.collector >= 3.2.0",
       "xunit >= 2.6.3",
       "xunit.runner.visualstudio >= 2.4.5"
     ]
   },
   "packageFolders": {
-    "/Users/tarik/.nuget/packages/": {}
+    "/Users/hanabisevac/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/tarik/Documents/Berg Klinika/clinic-svc/Tests/Tests.csproj",
+      "projectUniqueName": "/Users/hanabisevac/Projects/clinic-svc/Tests/Tests.csproj",
       "projectName": "Tests",
-      "projectPath": "/Users/tarik/Documents/Berg Klinika/clinic-svc/Tests/Tests.csproj",
-      "packagesPath": "/Users/tarik/.nuget/packages/",
-      "outputPath": "/Users/tarik/Documents/Berg Klinika/clinic-svc/Tests/obj/",
+      "projectPath": "/Users/hanabisevac/Projects/clinic-svc/Tests/Tests.csproj",
+      "packagesPath": "/Users/hanabisevac/.nuget/packages/",
+      "outputPath": "/Users/hanabisevac/Projects/clinic-svc/Tests/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/tarik/.nuget/NuGet/NuGet.Config"
+        "/Users/hanabisevac/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -6975,11 +6947,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "/Users/tarik/Documents/Berg Klinika/clinic-svc/BLL/BLL.csproj": {
-              "projectPath": "/Users/tarik/Documents/Berg Klinika/clinic-svc/BLL/BLL.csproj"
+            "/Users/hanabisevac/Projects/clinic-svc/BLL/BLL.csproj": {
+              "projectPath": "/Users/hanabisevac/Projects/clinic-svc/BLL/BLL.csproj"
             },
-            "/Users/tarik/Documents/Berg Klinika/clinic-svc/DAL/DAL.csproj": {
-              "projectPath": "/Users/tarik/Documents/Berg Klinika/clinic-svc/DAL/DAL.csproj"
+            "/Users/hanabisevac/Projects/clinic-svc/DAL/DAL.csproj": {
+              "projectPath": "/Users/hanabisevac/Projects/clinic-svc/DAL/DAL.csproj"
             }
           }
         }
@@ -7002,15 +6974,13 @@
             "target": "Package",
             "version": "[17.6.0, )"
           },
+          "Microsoft.VisualStudio.UnitTesting": {
+            "target": "Package",
+            "version": "[11.0.50727.1, )"
+          },
           "Moq": {
             "target": "Package",
             "version": "[4.20.70, )"
-          },
-          "coverlet.collector": {
-            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-            "suppressParent": "All",
-            "target": "Package",
-            "version": "[3.2.0, )"
           },
           "xunit": {
             "target": "Package",
@@ -7039,8 +7009,20 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.400/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.403/RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.VisualStudio.UnitTesting 11.0.50727.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.VisualStudio.UnitTesting",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    }
+  ]
 }
