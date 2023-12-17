@@ -94,7 +94,7 @@ namespace Tests
             mapperMock.Verify();
         }
 
-
+        //Whitebox testovi za metodu DeleteDoctor
         [Fact]
         public async Task DeleteDoctor_ExistingDoctor_DeletesDoctorAndUser()
         {
@@ -235,6 +235,79 @@ namespace Tests
             var exception = await Assert.ThrowsAsync<Exception>(() => doctorService.DeleteDoctor(doctorId));
             Assert.Equal("Did you forget to include User reference?", exception.Message);
         }
+
+        //Whitebox testovi za metodu CreateUser
+        [Fact]
+    public void CreateUser_WithShortPassword_ThrowsException()
+    {
+        // Arrange
+        var doctorDto = new DoctorDto {Code = "123",
+        Name = "Mea",
+        Surname = "Hrbenic", Password = "short" };
+
+        // Act
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _userRepositoryMock.Object, _mapper.Object);
+        var exception = Assert.Throws<Exception>(() => doctorService.CreateUser(doctorDto));
+
+        // Assert
+        Assert.Equal("Password length is less than 10", exception.Message);
+    }
+    [Fact]
+    public void CreateUser_WithNoSpecialCharacter_ThrowsException()
+    {
+        // Arrange
+        var doctorDto = new DoctorDto
+    {
+        Code = "123",
+        Name = "Mea",
+        Surname = "Hrbenic",
+        Password = "Mea123456789"
+    };
+
+        // Act
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _userRepositoryMock.Object, _mapper.Object);
+        var exception = Assert.Throws<Exception>(() => doctorService.CreateUser(doctorDto));
+
+        // Assert
+        Assert.Equal("Password must contain at least one of the following special characters: ! $ % & .,", exception.Message);
+    }
+
+    [Fact]
+    public void CreateUser_WithNoUppercaseLetter_ThrowsException()
+    {
+        // Arrange
+        var doctorDto = new DoctorDto { Code = "123",
+        Name = "Mea",
+        Surname = "Hrbenic",Password = "nouppercase123" };
+
+        // Act
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _userRepositoryMock.Object, _mapper.Object);
+        var exception = Assert.Throws<Exception>(() => doctorService.CreateUser(doctorDto));
+
+        // Assert
+        Assert.Equal("Password must contain at least one uppercase letter", exception.Message);
+    }
+
+    [Fact]
+    public void CreateUser_WithValidPassword_ReturnsUserObject()
+    {
+        // Arrange
+        var doctorDto = new DoctorDto { Code = "123",
+        Name = "Mea",
+        Surname = "Hrbenic",Password = "ValidPassword1!" };
+
+        // Act
+        var doctorService = new DoctorService(_doctorRepositoryMock.Object, _userRepositoryMock.Object, _mapper.Object);
+        var user = doctorService.CreateUser(doctorDto);
+
+        // Assert
+        Assert.NotNull(user);
+        Assert.Equal(1, user.RoleId);
+        Assert.False(user.IsDeleted);
+        Assert.False(user.IsActivated);
+        Assert.Equal(doctorDto.Code, user.Username);
+        // Add more assertions if needed
+    }
 
     }
 }

@@ -82,7 +82,7 @@ namespace BLL.Services
             return _mapper.Map<DoctorDto>(doctor);
         }
 
-        private User CreateUser(DoctorDto doctorDto)
+        public User CreateUser(DoctorDto doctorDto)
         {
             var password = doctorDto.Password;
 
